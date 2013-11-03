@@ -1,0 +1,1254 @@
+<?xml version="1.0" encoding="utf-8" ?><MONK><Ability><Name>[SPELL] Renewing Mist</Name><Default>false</Default><SpellID>0</SpellID><Actions></Actions><Lua>if Nova_RenewingMistCheck or Nova_SpamRenewingMistCheck then
+	if PQR_SpellAvailable(115151) 
+	and IsUsableSpell(115151)
+	and select(2,GetSpellCooldown(115151)) &amp;lt; 2 
+	and not UnitBuffID(&amp;quot;player&amp;quot;,101546)
+	and not UnitBuffID(&amp;quot;player&amp;quot;, 139597)
+	and not (UnitChannelInfo(&amp;quot;player&amp;quot;) == GetSpellInfo(131523))
+	then
+		if members[1].HP &amp;lt;= Nova_RenewingMistTank then
+			PRGetDistanceTablebuff(Nova_RenewingMistTank, 40, 2, 115151)	
+			PRGetDistanceTablebyHPbuff(Nova_RenewingMistTank,2)					
+			if IsSpellInRange(GetSpellInfo(115151),prdistancebyhpbuff[1].Unit) 
+			and (prdistancebyhpbuff[1].PD &amp;gt;= 2) then
+				if (UnitThreatSituation(prdistancebyhpbuff[1].Unit) == 3 and prdistancebyhpbuff[1].HP &amp;lt;= Nova_RenewingMistTank) or prdistancebyhpbuff[1].HP &amp;lt;= Nova_RenewingMist 
+				and not UnitCastingInfo(&amp;quot;player&amp;quot;) then			
+					CastSpellByName(tostring(GetSpellInfo(115151)),prdistancebyhpbuff[1].Unit)					
+					return true
+				end	
+			end			
+		end
+		
+		if Nova_SpamRenewingMistCheck 
+		and not UnitBuffID(members[1].Unit,115151,&amp;quot;player&amp;quot;)	
+		and IsSpellInRange(GetSpellInfo(115151),members[1].Unit) 
+		and not UnitCastingInfo(&amp;quot;player&amp;quot;)
+		then
+			CastSpellByName(tostring(GetSpellInfo(115151)),members[1].Unit)				
+			return true				
+		end										
+	end
+end</Lua><RecastDelay>0</RecastDelay><Target>Custom</Target><CancelChannel>True</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>[BUFF] Jade Serpent Statue</Name><Default>false</Default><SpellID>0</SpellID><Actions></Actions><Lua>if Nova_JadeSerpentStatueCheck then	
+	if (DeflamaWeaver_JadeSerpentStatue_key and not GetCurrentKeyBoardFocus()) then
+		if not UnitChannelInfo(&amp;quot;player&amp;quot;) 
+		and IsUsableSpell(115313) 
+		and PQR_SpellAvailable(115313)
+		and select(2,GetSpellCooldown(115313)) &amp;lt; 2 
+		and not UnitCastingInfo(&amp;quot;player&amp;quot;)
+		then
+		  CastSpellByName(tostring(GetSpellInfo(115313),nil))
+		  if SpellIsTargeting() then CameraOrSelectOrMoveStart() CameraOrSelectOrMoveStop() end
+		  return true
+		end
+	end
+end</Lua><RecastDelay>0</RecastDelay><Target>Target</Target><CancelChannel>True</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>[SPELL] Touch of Death</Name><Default>false</Default><SpellID>115080</SpellID><Actions></Actions><Lua>local spell, unit = 115080, &amp;quot;target&amp;quot;
+if SIN_CanCast(spell, unit) then
+	if not UnitPlayerControlled(unit) then
+		if UnitHealth(unit) &amp;lt;= UnitHealth(&amp;quot;player&amp;quot;) then
+			SIN_Cast(spell, target)
+		end
+	end
+end</Lua><RecastDelay>0</RecastDelay><Target>Target</Target><CancelChannel>True</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>[SPELL] Mana Tea</Name><Default>false</Default><SpellID>0</SpellID><Actions></Actions><Lua>if Nova_ManaTeaCheck then
+	if PQR_SpellAvailable(115294)
+	and not UnitBuffID(&amp;quot;player&amp;quot;, 137331)
+	and not UnitBuffID(&amp;quot;player&amp;quot;, 139597) then
+		if UnitBuffID(&amp;quot;player&amp;quot;, 115867) then
+			if (select(4, UnitBuffID(&amp;quot;player&amp;quot;, 115867)) &amp;gt;= Nova_ManaTeaLimit and select(3, Nova_UnitInfo(&amp;quot;player&amp;quot;)) &amp;lt;= Nova_ManaTea)	 
+			 or UnitBuffID(&amp;quot;player&amp;quot;,64904) 
+			 and not UnitCastingInfo(&amp;quot;player&amp;quot;) then
+			 	if GlyphCheck(123763) then --124450					
+					if select(2,GetSpellCooldown(123761)) &amp;lt; 2												
+					then
+				 		CastSpellByName(tostring(GetSpellInfo(123761)),&amp;quot;player&amp;quot;)	
+				 		return true
+				 	end			 	
+			 	else					
+				 	CastSpellByName(tostring(GetSpellInfo(115294)),&amp;quot;player&amp;quot;)	
+				 	return true			 	
+			 	end
+			end
+		end
+	end
+end</Lua><RecastDelay>0</RecastDelay><Target>Player</Target><CancelChannel>False</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>[SPELL] Chi Brew</Name><Default>false</Default><SpellID>115399</SpellID><Actions></Actions><Lua>if PQR_SpellAvailable(115399)
+and UnitAffectingCombat(&amp;quot;player&amp;quot;)
+and not UnitBuffID(&amp;quot;player&amp;quot;, 137331)
+and not UnitBuffID(&amp;quot;player&amp;quot;, 139597)
+and UnitPower(&amp;quot;player&amp;quot;, 12) &amp;lt;= 2 then
+	return true
+end</Lua><RecastDelay>5000</RecastDelay><Target>Player</Target><CancelChannel>False</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>- DATA -</Name><Default>false</Default><SpellID>0</SpellID><Actions></Actions><Lua>if PQR_RotationStarted == true then
+	-- Should be reloaded every time you reload Profile (No more needing to /rl)
+ 	-- Only takes full effects when we&amp;apos;re 90
+ 	if UnitLevel(&amp;quot;player&amp;quot;) ~= 90 then
+ 		PQR_WriteToChat(&amp;quot;\124cFFFF55FFWarning: only takes full effect when we&amp;apos;re 90!&amp;quot;)		
+ 	end	
+	PQR_RotationStarted = false
+
+	PQR_Event(&amp;quot;PQR_Text&amp;quot;, &amp;quot;Lightning Weaver v1.2 Beta&amp;quot;, nil, &amp;quot;00FF00&amp;quot;)
+	PQR_SwapCheckTimer = 0
+
+	--Begin PQI
+	if (IsAddOnLoaded(&amp;quot;PQInterface&amp;quot;)) == 1 then
+		PQInterfaceLoaded = true
+		PQInterfaceVersion = (tonumber(GetAddOnMetadata(&amp;quot;PQInterface&amp;quot;, &amp;quot;Version&amp;quot;)))
+		if PQInterfaceVersion &amp;gt;= 2.22 then
+			PQInterfaceUpdated = true
+		else 
+			PQInterfaceUpdated = nil 
+			PQR_WriteToChat(&amp;quot;Your PQI is not up to date. Rotation has been stopped.&amp;quot;, &amp;quot;Error&amp;quot;)
+			PQR_StopRotation()
+			return true					
+		end
+	else 
+		PQInterfaceLoaded = nil 
+		PQR_WriteToChat(&amp;quot;Please download the latest version of PQI. Rotation has been stopped.&amp;quot;, &amp;quot;Error&amp;quot;)
+		PQR_StopRotation()
+		return true				
+	end
+		-- Load Data File
+	if PQR_LoadLua ~= nil then
+		if PQR_LoadLua(&amp;quot;PQR_Deflama_Data.lua&amp;quot;) == false then
+			PQR_WriteToChat(&amp;quot;You are missing PQR_Deflama_Data.lua. Rotation has been stopped.&amp;quot;, &amp;quot;Error&amp;quot;)
+			PQR_StopRotation()
+			return true
+		end
+		if PQR_LoadLua(&amp;quot;PQR_PQI.lua&amp;quot;) == true then
+			PQInterfaceDataLoaded = true
+		else 
+			PQInterfaceDataLoaded = false 
+			PQR_WriteToChat(&amp;quot;You are missing PQR_PQI.lua. Rotation has been stopped.&amp;quot;, &amp;quot;Error&amp;quot;)
+			PQR_StopRotation()
+			return true		
+		end		
+	end	
+	
+	if not PQI_Lightning_Weaver_GUI_Loaded 
+	and PQInterfaceLoaded 
+	and PQInterfaceUpdated 
+	and PQInterfaceDataLoaded then 	
+		local config = {
+			name	= &amp;apos;Lightning Weaver&amp;apos;,
+			author	= &amp;apos;Deflama&amp;apos;,
+			abilities = {				
+				{	name = &amp;quot;Detox&amp;quot;,
+					enable = true,
+					widget = { type = &amp;apos;select&amp;apos;, 
+						values = { &amp;quot;mouseover&amp;quot;, &amp;quot;target&amp;quot;, &amp;quot;focus&amp;quot;, },
+						value = 1,
+						width = 75,
+					},
+				},
+				{ 	name = &amp;quot;Renewing Mist&amp;quot;,
+					newSection = true,
+					enable = true,
+					tooltip = &amp;quot;Enables the use of Renewing Mist&amp;quot;,
+					widget = { type = &amp;apos;numBox&amp;apos;,
+						value = 95,
+						step = 1,
+						max = 100,
+						min = 0,
+						tooltip = &amp;quot;The percent of HP to use Renewing Mist at&amp;quot;,
+					},
+				},	
+				{ 	name = &amp;quot;Renewing Mist Tank&amp;quot;,
+					enable = true,
+					tooltip = &amp;quot;Enables the use of Renewing Mist on Tanks&amp;quot;,
+					widget = { type = &amp;apos;numBox&amp;apos;,
+						value = 99,
+						step = 1,
+						max = 100,
+						min = 0,
+						tooltip = &amp;quot;The percent of HP to use Renewing Mist on Tanks at&amp;quot;,
+					},
+				},	
+				{ 	name = &amp;quot;Spam Renewing Mist&amp;quot;,
+					enable = true,
+					tooltip = &amp;quot;Will use Renewing Mist on CD&amp;quot;,
+				},						
+				{ 	name = &amp;quot;Surging Mist Instant&amp;quot;,
+					enable = true,
+					tooltip = &amp;quot;Enables the use of Surging Mist Instant with 5 Stacks of Vital Mists&amp;quot;,
+					widget = { type = &amp;apos;numBox&amp;apos;,
+						value = 70,
+						step = 1,
+						max = 100,
+						min = 0,
+						tooltip = &amp;quot;The percent of HP to use Surging Mist at with 5 vital mists stacks&amp;quot;,
+					},
+				},	
+				{ 	name = &amp;quot;Uplift&amp;quot;,
+					enable = false,
+					tooltip = &amp;quot;Enables the use of Uplift&amp;quot;,
+					widget = { type = &amp;apos;numBox&amp;apos;,
+						value = 90,
+						step = 1,
+						max = 100,
+						min = 0,
+						tooltip = &amp;quot;The percent of HP to use Uplift at&amp;quot;,
+					},
+				},	
+				{ 	name = &amp;quot;Uplift Count&amp;quot;,
+					enable = false,
+					widget = { type = &amp;apos;numBox&amp;apos;,
+						value = 3,
+						step = 1,
+						max = 10,
+						min = 0,
+						tooltip = &amp;quot;The number of ReMs to use Uplift at&amp;quot;,
+					},
+				},				
+				{	name = &amp;quot;TFT&amp;quot;,
+					enable = true,
+					widget = { type = &amp;quot;numBox&amp;quot;,
+						value = 6,
+						min = 3,
+						max = 6,
+						step = 1,
+						tooltip = &amp;quot;NOT AVAILABLE YET - Number of minimum targets (with Renewing Mists) to cast Thunder Focus Tea.&amp;quot;,				
+					},
+				},	
+				{ 	name = &amp;quot;Life Cocoon&amp;quot;,
+					enable = false,
+					tooltip = &amp;quot;Enables the use of Life Cocoon&amp;quot;,
+					widget = { type = &amp;apos;numBox&amp;apos;,
+						value = 20,
+						step = 1,
+						max = 100,
+						min = 0,
+						tooltip = &amp;quot;The percent of HP to use Life Cocoon at&amp;quot;,
+					},
+				},			
+				{ 	name = &amp;quot;Revival&amp;quot;,
+					enable = true,
+					tooltip = &amp;quot;Enables the use of Revival&amp;quot;,
+					widget = { type = &amp;apos;numBox&amp;apos;,
+						value = 60,
+						step = 1,
+						max = 100,
+						min = 0,
+						tooltip = &amp;quot;The percent of HP to use Revival at&amp;quot;,
+					},
+				},	
+				{ 	name = &amp;quot;Revival Limit&amp;quot;,
+					enable = true,
+					widget = { type = &amp;apos;numBox&amp;apos;,
+						value = 4,
+						step = 1,
+						max = 10,
+						min = 0,
+						tooltip = &amp;quot;The number of raid members around healing target to use Revival at&amp;quot;,
+					},
+				},
+				{ 	name = &amp;quot;Spinning Crane Kick&amp;quot;,
+					enable = false,
+					tooltip = &amp;quot;Enables the auto use of Spinning Crane Kick&amp;quot;,
+					widget = { type = &amp;apos;numBox&amp;apos;,
+						value = 70,
+						step = 1,
+						max = 100,
+						min = 0,
+						tooltip = &amp;quot;The percent of HP to use Spinning Crane Kick at&amp;quot;,
+					},
+				},
+				{ 	name = &amp;quot;Spinning Crane Kick Limit&amp;quot;,
+					enable = false,
+					widget = { type = &amp;apos;numBox&amp;apos;,
+						value = 3,
+						step = 1,
+						max = 10,
+						min = 0,
+						tooltip = &amp;quot;The number of raid members around healing target to use Spinning CKick at&amp;quot;,
+					},
+				},
+				{ 	name = &amp;quot;Mana Tea&amp;quot;,
+					newSection = true,
+					enable = true,
+					tooltip = &amp;quot;Enables the use of Mana Tea&amp;quot;,
+					widget = { type = &amp;apos;numBox&amp;apos;,
+						value = 90,
+						step = 1,
+						max = 100,
+						min = 0,
+						tooltip = &amp;quot;The percent of Mana to use Mana Tea at&amp;quot;,
+					},
+				},
+				{ 	name = &amp;quot;Mana Tea Limit&amp;quot;,
+					enable = true,
+					widget = { type = &amp;apos;numBox&amp;apos;,
+						value = 5,
+						step = 1,
+						max = 20,
+						min = 0,
+						tooltip = &amp;quot;The number of stacks to use Mana Tea at&amp;quot;,
+					},
+				},	
+				{	name = &amp;quot;54 Events&amp;quot;,
+					newSection = true,
+					tooltip = &amp;quot;Enables the use of 5.4 boss specific mechanics&amp;quot;,
+					enable = false,
+				},				
+				{	name = &amp;quot;53 Events&amp;quot;,
+					tooltip = &amp;quot;Enables the use of 5.3 boss specific mechanics&amp;quot;,
+					enable = false,
+				},		
+				{ 	name = &amp;quot;Auto Event Dispel&amp;quot;,
+					enable = true,
+					tooltip = &amp;quot;Enables the use of dispel on special events mechanics&amp;quot;,
+				},			
+				{ 	name = &amp;quot;NPC Mouseover Heal&amp;quot;,
+					enable = false,
+					tooltip = &amp;quot;NPC Mouseover Heal priority for Wrathion, Immerseus and Norushen&amp;quot;,
+				},	
+				{ 	name = &amp;quot;Queue System&amp;quot;,
+					enable = true,
+					tooltip = &amp;quot;Enables the Queue System&amp;quot;,
+				},					
+				{ 	name = &amp;quot;Auto Target&amp;quot;,
+					enable = true,
+					tooltip = &amp;quot;If you dont have a target it will target your focus&amp;apos; target&amp;quot;,
+				},
+				{	name = &amp;quot;Auto Open PQI Options&amp;quot;,
+					tooltip = &amp;quot;Auto Opens PQI Options for you, will only happen once per login.&amp;quot;,
+					enable = true,
+				},												
+			},
+			hotkeys = {
+				{	name = &amp;quot;Pause Rotation&amp;quot;,		enable = true,	hotkeys = {&amp;apos;ls&amp;apos;},	},
+				{	name = &amp;quot;Jade Serpent Statue&amp;quot;,		enable = true,	hotkeys = {&amp;apos;lc&amp;apos;},
+					tooltip = &amp;quot;Use Jade Serpent Statue at mouseover&amp;quot;, },
+				{	name = &amp;quot;Healing Sphere&amp;quot;,			enable = true,	hotkeys = {&amp;apos;ra&amp;apos;},	
+					tooltip = &amp;quot;Use Healing Sphere at mouseover&amp;quot;, },
+				{	name = &amp;quot;Spinning Crane Kick&amp;quot;,		enable = false,	hotkeys = {&amp;apos;rc&amp;apos;},	
+					tooltip = &amp;quot;Spinning Crane Kick&amp;quot;, },							
+				{	name = &amp;quot;Zen Meditation&amp;quot;,		enable = false,	hotkeys = {&amp;apos;ls&amp;apos;,&amp;apos;ra&amp;apos;},	
+					tooltip = &amp;quot;Pop Zen Meditation&amp;quot;, },													
+			},
+		}
+		PQI_Lightning_Weaver_GUI_Loaded = PQI:AddRotation(config)
+	end
+	
+	PQR_ResetMovementTime = 0.3
+	PQR_SpellAvailableTime = ((select(3,GetNetStats()) + select(4,GetNetStats())) / 1000)
+	
+	PQR_Spec = GetSpecialization()
+	if PQR_Spec ~= 2 then
+		PQR_WriteToChat(&amp;quot;You must be in Mist Spec. Please switch then try again.&amp;quot;, &amp;quot;Warning&amp;quot;)
+		PQR_StopRotation()
+		return true
+	end
+end
+
+if PQR_IsMoving() then
+	Nova_Moving = true
+else
+	Nova_Moving = false
+end
+
+local function onUpdate(self,elapsed) 
+  if self.time &amp;lt; GetTime() - 2.8 then
+    if self:GetAlpha() == 0 then self:Hide() else self:SetAlpha(self:GetAlpha() - .05) end
+  end
+end
+
+xrn = CreateFrame(&amp;quot;Frame&amp;quot;,nil,ChatFrame1) 
+xrn:SetSize(ChatFrame1:GetWidth(),30)
+xrn:Hide()
+xrn:SetScript(&amp;quot;OnUpdate&amp;quot;,onUpdate)
+xrn:SetPoint(&amp;quot;TOP&amp;quot;,0,0)
+xrn.text = xrn:CreateFontString(nil,&amp;quot;OVERLAY&amp;quot;,&amp;quot;MovieSubtitleFont&amp;quot;)
+xrn.text:SetAllPoints()
+xrn.texture = xrn:CreateTexture()
+xrn.texture:SetAllPoints()
+xrn.texture:SetTexture(0,0,0,.50) 
+xrn.time = 0
+
+function xrn:message(message) 
+  self.text:SetText(message)
+  self:SetAlpha(1)
+  self.time = GetTime() 
+  self:Show() 
+end
+
+if macros == nil then
+	macros = { 
+	    [&amp;quot;Cleave&amp;quot;]    					= false,  
+	} 
+	if not _Cleave then _Cleave = false end
+end
+
+if SlashMacros == nil then
+	SlashMacros = true
+
+	SLASH_CLEAVE1 = &amp;quot;/cleave&amp;quot;
+	function SlashCmdList.CLEAVE(msg, editbox)
+		if not macros[&amp;quot;Cleave&amp;quot;] then
+			xrn:message(&amp;quot;|cff9933ffCleave - Active.&amp;quot;)
+			macros[&amp;quot;Cleave&amp;quot;] = true
+		else			
+			xrn:message(&amp;quot;|cff9933ffCleave - Inactive.&amp;quot;)
+			macros[&amp;quot;Cleave&amp;quot;] = false
+		end
+	end
+end
+
+--Vach&amp;apos;s Queue System
+SLASH_VQUEUE1 = &amp;quot;/vqueue&amp;quot;
+function SlashCmdList.VQUEUE(msg, editbox)		
+	local spellid, unit = msg:match(&amp;quot;^(%S*)%s*(.-)$&amp;quot;);
+	if tonumber(spellid) ~= nil and unit ~= &amp;quot;&amp;quot; then 			
+		if not UnitExists(tostring(unit)) and unit ~= &amp;quot;tank&amp;quot; and unit ~= &amp;quot;low&amp;quot; and unit ~= &amp;quot;aoe5&amp;quot; and unit ~= &amp;quot;aoe10&amp;quot; and unit ~= &amp;quot;aoe15&amp;quot; and unit ~= &amp;quot;aoe20&amp;quot; and unit ~= &amp;quot;aoe25&amp;quot; and unit ~= &amp;quot;aoe30&amp;quot; then			
+			PQR_WriteToChat(&amp;quot;unit not exist&amp;quot;);
+		elseif not IsSpellKnown(tonumber(spellid)) then
+			PQR_WriteToChat(&amp;quot;spell unknown&amp;quot;);
+		else
+			if not Queue_Spell then
+				Queue_Spell = { }	
+			end				
+			table.insert(Queue_Spell, { Unit = unit, SpellID = spellid, Time = GetTime() } )
+		end
+	else
+		PQR_WriteToChat(&amp;quot;Syntax: /vqueue spellid unit&amp;quot;);
+	end
+end</Lua><RecastDelay>0</RecastDelay><Target>Target</Target><CancelChannel>True</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>- PAUSE -</Name><Default>false</Default><SpellID>0</SpellID><Actions></Actions><Lua>if (DeflamaWeaver_PauseRotation_key and not GetCurrentKeyBoardFocus())
+or UnitIsDeadOrGhost(&amp;quot;player&amp;quot;) 
+or (UnitChannelInfo(&amp;quot;player&amp;quot;) == GetSpellInfo(115176))
+or IsMounted()
+or UnitBuffID(&amp;quot;player&amp;quot;, 104269)
+then
+	return true
+end</Lua><RecastDelay>0</RecastDelay><Target>Target</Target><CancelChannel>True</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>- PQI VARIABLES -</Name><Default>false</Default><SpellID>0</SpellID><Actions></Actions><Lua>-- Variables
+if PQInterfaceLoaded and PQInterfaceUpdated and PQInterfaceDataLoaded then
+	--They have PQI and its up-to-date use PQI
+	
+	PQI_Variables_Loaded = PQI_DeflamaLightningWeaver_AutoOpenPQIOptions_enable
+	DeflamaWeaver_AutoOpenPQIOptions_enable = PQI_DeflamaLightningWeaver_AutoOpenPQIOptions_enable
+	
+	Nova_ManaTeaCheck = PQI_DeflamaLightningWeaver_ManaTea_enable
+	Nova_ManaTea = PQI_DeflamaLightningWeaver_ManaTea_value
+	Nova_ManaTeaLimitCheck = PQI_DeflamaLightningWeaver_ManaTeaLimit_enable
+	Nova_ManaTeaLimit = PQI_DeflamaLightningWeaver_ManaTeaLimit_value		
+	Nova_RenewingMistCheck = PQI_DeflamaLightningWeaver_RenewingMist_enable
+	Nova_RenewingMist = PQI_DeflamaLightningWeaver_RenewingMist_value
+	Nova_RenewingMistTankCheck = PQI_DeflamaLightningWeaver_RenewingMistTank_enable
+	Nova_RenewingMistTank = PQI_DeflamaLightningWeaver_RenewingMistTank_value
+	Nova_SurgingMistInstantCheck = PQI_DeflamaLightningWeaver_SurgingMistInstant_enable
+	Nova_SurgingMistInstant = PQI_DeflamaLightningWeaver_SurgingMistInstant_value
+	Nova_UpliftCheck = PQI_DeflamaLightningWeaver_Uplift_enable
+	Nova_Uplift = PQI_DeflamaLightningWeaver_Uplift_value
+	Nova_UpliftCountCheck = PQI_DeflamaLightningWeaver_UpliftCount_enable
+	Nova_UpliftCount = PQI_DeflamaLightningWeaver_UpliftCount_value	
+	Nova_TFTCheck = PQI_DeflamaLightningWeaver_TFT_enable
+	Nova_TFT = PQI_DeflamaLightningWeaver_TFT_value
+	Nova_LifeCocoonCheck = PQI_DeflamaLightningWeaver_LifeCocoon_enable
+	Nova_LifeCocoon = PQI_DeflamaLightningWeaver_LifeCocoon_value
+	Nova_SpinningCraneKickCheck = PQI_DeflamaLightningWeaver_SpinningCraneKick_enable
+	Nova_SpinningCraneKick = PQI_DeflamaLightningWeaver_SpinningCraneKick_value
+	Nova_SpinningCraneKickLimitCheck = PQI_DeflamaLightningWeaver_SpinningCraneKickLimit_enable
+	Nova_SpinningCraneKickLimit = PQI_DeflamaLightningWeaver_SpinningCraneKickLimit_value
+	Nova_RushingJadeWindCheck = PQI_DeflamaLightningWeaver_RushingJadeWind_enable
+	Nova_RushingJadeWind = PQI_DeflamaLightningWeaver_RushingJadeWind_value
+	Nova_RushingJadeWindLimitCheck = PQI_DeflamaLightningWeaver_RushingJadeWindLimit_enable
+	Nova_RushingJadeWindLimit = PQI_DeflamaLightningWeaver_RushingJadeWindLimit_value		
+	Nova_RevivalCheck = PQI_DeflamaLightningWeaver_Revival_enable
+	Nova_Revival = PQI_DeflamaLightningWeaver_Revival_value
+	Nova_RevivalLimitCheck = PQI_DeflamaLightningWeaver_RevivalLimit_enable
+	Nova_RevivalLimit = PQI_DeflamaLightningWeaver_RevivalLimit_value		
+	Nova_SpamRenewingMistCheck = PQI_DeflamaLightningWeaver_SpamRenewingMist_enable
+	Nova_SpamRenewingMist = PQI_DeflamaLightningWeaver_SpamRenewingMist_value	
+	Nova_53EventsCheck = PQI_DeflamaLightningWeaver_53Events_enable
+	Nova_53Events = PQI_DeflamaLightningWeaver_53Events_value
+	Nova_54EventsCheck = PQI_DeflamaLightningWeaver_54Events_enable
+	Nova_54Events = PQI_DeflamaLightningWeaver_54Events_value		
+	Nova_AutoEventDispel = PQI_DeflamaLightningWeaver_AutoEventDispel_enable
+	Nova_NPCMouseoverHeal = PQI_DeflamaLightningWeaver_NPCMouseoverHeal_enable
+	Nova_QueueSystemCheck = PQI_DeflamaLightningWeaver_QueueSystem_enable
+	Nova_QueueSystem = PQI_DeflamaLightningWeaver_QueueSystem_value
+	Nova_AutoTargetCheck = PQI_DeflamaLightningWeaver_AutoTarget_enable
+	Nova_AutoTarget = PQI_DeflamaLightningWeaver_AutoTarget_value
+	
+	if Nova_LowHP == nil then Nova_LowHP = 80 end
+	if Nova_ActualHP == nil or Nova_ActualHP then Nova_ActualHP = false end
+	
+	-- Hotkeys
+	if not PQI_Hotkeys_Functions_Set then
+		function PQI_PauseRotation()
+			if PQI_DeflamaLightningWeaver_PauseRotation_enable and PQI:IsHotkeys(PQI_DeflamaLightningWeaver_PauseRotation_key) then
+			return true else return false 
+		end	end	
+		function PQI_JadeSerpentStatue()
+			if PQI_DeflamaLightningWeaver_JadeSerpentStatue_enable and PQI:IsHotkeys(PQI_DeflamaLightningWeaver_JadeSerpentStatue_key) then
+			return true else return false
+		end	end			
+		function PQI_HealingSphere()
+			if PQI_DeflamaLightningWeaver_HealingSphere_enable and PQI:IsHotkeys(PQI_DeflamaLightningWeaver_HealingSphere_key) then
+			return true else return false
+		end	end	
+		function PQI_SpinningCraneKick()
+			if PQI_DeflamaLightningWeaver_SpinningCraneKick_enable and PQI:IsHotkeys(PQI_DeflamaLightningWeaver_SpinningCraneKick_key) then
+			return true else return false
+		end	end		
+		function PQI_ZenMeditation()
+			if PQI_DeflamaLightningWeaver_ZenMeditation_enable and PQI:IsHotkeys(PQI_DeflamaLightningWeaver_ZenMeditation_key) then
+			return true else return false
+		end	end									
+	end	
+	
+	Nova_PauseRotationCheck = PQI_DeflamaLightningWeaver_PauseRotation_enable
+	Nova_JadeSerpentStatueCheck = PQI_DeflamaLightningWeaver_JadeSerpentStatue_enable
+	Nova_HealingSphereCheck = PQI_DeflamaLightningWeaver_HealingSphere_enable
+	Nova_SpinningCraneKickCheck = PQI_DeflamaLightningWeaver_SpinningCraneKick_enable
+	Nova_ZenMeditationCheck = PQI_DeflamaLightningWeaver_ZenMeditation_enable
+	
+	DeflamaWeaver_PauseRotation_key = PQI_PauseRotation()
+	DeflamaWeaver_JadeSerpentStatue_key = PQI_JadeSerpentStatue()
+	DeflamaWeaver_HealingSphere_key = PQI_HealingSphere()
+	DeflamaWeaver_SpinningCraneKick_key = PQI_SpinningCraneKick()
+	DeflamaWeaver_ZenMeditation_key = PQI_ZenMeditation()
+
+	--Set PQI
+	if not PQI_DeflamaWeaver_Set and DeflamaWeaver_AutoOpenPQIOptions_enable ~= nil then
+		RunMacroText(&amp;quot;/PQI show&amp;quot;)
+		RunMacroText(&amp;quot;/PQI config show&amp;quot;)
+		RunMacroText(&amp;quot;/PQI config width 220&amp;quot;)
+		if not DeflamaWeaver_AutoOpenPQIOptions_enable then
+		RunMacroText(&amp;quot;/PQI config hide&amp;quot;) end
+		PQI_DeflamaWeaver_Set = true
+	end
+end
+
+--PQI is not loading variables instantly any more ?_? need to delay till they are loaded to avoid errors!
+if PQI_Variables_Loaded == nil then
+	return true
+end</Lua><RecastDelay>0</RecastDelay><Target>Target</Target><CancelChannel>True</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>- HEALING ENGINE -</Name><Default>false</Default><SpellID>0</SpellID><Actions></Actions><Lua>if Nova_54EventsCheck then
+	if not UnitDebuffID(&amp;quot;player&amp;quot;,144850) --Test of Reliance
+	and not UnitDebuffID(&amp;quot;player&amp;quot;,142861) then --Ancient Miasma
+		SheuronEngine(Nova_Mouseover, Nova_LowHP, Nova_ActualHP, Nova_TargetHeal, Nova_SpecialEvents, Nova_PetHeal)  -- Deactivate Mouseover  ||   At what % Health do we consider someone LowHP  ||  Sort by Actual Health = true
+	end
+else
+	SheuronEngine(Nova_Mouseover, Nova_LowHP, Nova_ActualHP, Nova_TargetHeal, Nova_SpecialEvents, Nova_PetHeal)  -- Deactivate Mouseover  ||   At what % Health do we consider someone LowHP  ||  Sort by Actual Health = true	
+end</Lua><RecastDelay>0</RecastDelay><Target>Target</Target><CancelChannel>True</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>[DPS] Jab</Name><Default>false</Default><SpellID>100780</SpellID><Actions>/use 10</Actions><Lua>if UnitAffectingCombat(&amp;quot;player&amp;quot;)
+and IsSpellInRange(GetSpellInfo(100780), &amp;quot;target&amp;quot;) == 1
+and UnitBuffID(&amp;quot;player&amp;quot;, 137331) then
+	if not UnitBuffID(&amp;quot;player&amp;quot;, 139597) then
+		CastSpellByName(tostring(GetSpellInfo(100780)),&amp;quot;target&amp;quot;)
+	else
+		if UnitBuffID(&amp;quot;player&amp;quot;, 139597)
+		and UnitPower(&amp;quot;player&amp;quot;, 12) &amp;lt; 1 then
+			CastSpellByName(tostring(GetSpellInfo(100780)),&amp;quot;target&amp;quot;)
+		end
+	end
+end</Lua><RecastDelay>0</RecastDelay><Target>Target</Target><CancelChannel>True</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>[DPS] Tiger Palm</Name><Default>false</Default><SpellID>100787</SpellID><Actions>/use 10</Actions><Lua>if UnitAffectingCombat(&amp;quot;player&amp;quot;)
+and IsSpellInRange(GetSpellInfo(100787), &amp;quot;target&amp;quot;) == 1 then
+	if (not UnitBuffID(&amp;quot;player&amp;quot;, 125359) or select(7,UnitBuffID(&amp;quot;player&amp;quot;,125359)) &amp;lt; 2)
+	and UnitPower(&amp;quot;player&amp;quot;, 12) &amp;gt;= 1 then
+		return true
+	else
+		if not macros[&amp;quot;Cleave&amp;quot;] then 
+			if UnitPower(&amp;quot;player&amp;quot;, 12) &amp;gt;= 3 then
+				return true
+			else
+				if UnitPower(&amp;quot;player&amp;quot;, 12) &amp;gt;= 1
+				and UnitBuffID(&amp;quot;player&amp;quot;, 139597) then
+					return true
+				end
+			end
+		end
+	end
+end</Lua><RecastDelay>0</RecastDelay><Target>Target</Target><CancelChannel>False</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>[DPS] Blackout Kick</Name><Default>false</Default><SpellID>100784</SpellID><Actions>/use 10</Actions><Lua>if IsSpellInRange(GetSpellInfo(100784), &amp;quot;target&amp;quot;) == 1
+and PQR_SpellAvailable(100784)
+and UnitAffectingCombat(&amp;quot;player&amp;quot;) then
+	if UnitPower(&amp;quot;player&amp;quot;, 12) &amp;gt;= 3
+	and (not UnitBuffID(&amp;quot;player&amp;quot;, 127722) or select(7,UnitBuffID(&amp;quot;player&amp;quot;,127722)) &amp;lt; 2)  then
+		return true
+	else
+		if macros[&amp;quot;Cleave&amp;quot;] then
+			if UnitPower(&amp;quot;player&amp;quot;, 12) &amp;gt;= 3 then
+				return true
+			else
+				if UnitPower(&amp;quot;player&amp;quot;, 12) &amp;gt;= 2
+				and UnitBuffID(&amp;quot;player&amp;quot;, 139597) then
+					return true
+				end
+			end
+		end
+	end
+end</Lua><RecastDelay>0</RecastDelay><Target>Target</Target><CancelChannel>False</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>[DPS] Crackling Jade Lightning</Name><Default>false</Default><SpellID>117952</SpellID><Actions>/use 10</Actions><Lua>if 100 * UnitPower(&amp;quot;player&amp;quot;) / UnitPowerMax(&amp;quot;player&amp;quot;) &amp;gt; 15 
+and UnitAffectingCombat(&amp;quot;player&amp;quot;)
+and PQR_SpellAvailable(117952)
+and not Nova_Moving
+and UnitPower(&amp;quot;player&amp;quot;, 12) &amp;lt; 4 then
+	if IsSpellInRange(GetSpellInfo(100780), &amp;quot;target&amp;quot;) == 1 then
+		if not UnitBuffID(&amp;quot;player&amp;quot;, 137331)
+		or not UnitBuffID(&amp;quot;player&amp;quot;, 139597) then
+			CastSpellByName(tostring(GetSpellInfo(117952)),&amp;quot;target&amp;quot;)
+			return true
+		end
+	else
+		if IsSpellInRange(GetSpellInfo(100780), &amp;quot;target&amp;quot;) == 0 then
+			CastSpellByName(tostring(GetSpellInfo(117952)),&amp;quot;target&amp;quot;)
+			return true
+		end
+	end
+end</Lua><RecastDelay>0</RecastDelay><Target>Target</Target><CancelChannel>False</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>[META] CJL Stop Casting</Name><Default>false</Default><SpellID>0</SpellID><Actions></Actions><Lua>if (UnitBuffID(&amp;quot;player&amp;quot;, 137331) and IsSpellInRange(GetSpellInfo(100780)) == 1)
+or (UnitBuffID(&amp;quot;player&amp;quot;, 139597) and IsSpellInRange(GetSpellInfo(100780)) == 1)
+or UnitPower(&amp;quot;player&amp;quot;, 12) == 4
+and UnitChannelInfo(&amp;quot;player&amp;quot;) == GetSpellInfo(117952) then
+	if 100 * UnitPower(&amp;quot;player&amp;quot;) / UnitPowerMax(&amp;quot;player&amp;quot;) &amp;gt; 35 then
+		SpellStopCasting()
+	end
+end</Lua><RecastDelay>0</RecastDelay><Target>Target</Target><CancelChannel>True</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>[BUFF] Legacy of the Emperor</Name><Default>false</Default><SpellID>0</SpellID><Actions></Actions><Lua>if not UnitBuffID(&amp;quot;player&amp;quot;,1126)
+and not UnitBuffID(&amp;quot;player&amp;quot;,20217)
+and not UnitBuffID(&amp;quot;player&amp;quot;,90363)
+and not UnitBuffID(&amp;quot;player&amp;quot;,115921) 
+and PQR_SpellAvailable(115921)
+and IsUsableSpell(115921) 
+and not UnitCastingInfo(&amp;quot;player&amp;quot;) then
+	CastSpellByName(tostring(GetSpellInfo(115921)),&amp;quot;player&amp;quot;)
+end</Lua><RecastDelay>0</RecastDelay><Target>Player</Target><CancelChannel>True</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>[DPS] Chi Wave</Name><Default>false</Default><SpellID>115098</SpellID><Actions></Actions><Lua>if PQR_SpellAvailable(115098)
+and UnitAffectingCombat(&amp;quot;player&amp;quot;)
+and not UnitBuffID(&amp;quot;player&amp;quot;, 139597)
+and not UnitBuffID(&amp;quot;player&amp;quot;, 137331) then
+	return true
+end</Lua><RecastDelay>0</RecastDelay><Target>Target</Target><CancelChannel>True</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>[SPELL] Expel Harm</Name><Default>false</Default><SpellID>115072</SpellID><Actions></Actions><Lua>if UnitAffectingCombat(&amp;quot;player&amp;quot;) 
+and PQR_SpellAvailable(115072) 
+and 100 * UnitPower(&amp;quot;player&amp;quot;) / UnitPowerMax(&amp;quot;player&amp;quot;) &amp;lt; 35
+and not UnitBuffID(&amp;quot;player&amp;quot;, 137331) -- Lucidity
+and UnitPower(&amp;quot;player&amp;quot;, 12) &amp;lt; 4 then
+	if UnitBuffID(&amp;quot;player&amp;quot;, 139597) -- Muscle Memory
+	and IsSpellInRange(GetSpellInfo(100787), &amp;quot;target&amp;quot;) == 1 then
+		return false
+	else
+		return true	
+	end
+end</Lua><RecastDelay>0</RecastDelay><Target>Player</Target><CancelChannel>True</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>[MISC] 5.4 Events</Name><Default>false</Default><SpellID>0</SpellID><Actions></Actions><Lua>if Nova_54EventsCheck 
+and UnitAffectingCombat(&amp;quot;player&amp;quot;) then
+	local boss,bossid = bossid()
+	local dispelid = 115450	
+	local rangecheckid = 115175	
+	local buff = { }
+	stopcasting = false
+	stopdps = false
+	LLdebuff = false
+	LLdebuffunit = false		
+	if UnitExists(boss) then
+		--local _, _, rdifficulty = GetInstanceInfo()
+		if bossid == 71515 then --General Nazgrim
+			if UnitBuffID(&amp;quot;boss1&amp;quot;, 143593) then --Defensive Stance
+				stopdps = true				
+			else
+				stopdps = false
+			end
+		elseif bossid == 71995 or bossid == 71996 or bossid == 72000 then --Amalgam of Corruption - Norushen
+			if UnitDebuffID(&amp;quot;player&amp;quot;,144850) --Test of Reliance
+			then 
+				BossSheuronEngine(Nova_Mouseover, Nova_LowHP, Nova_ActualHP, Nova_TargetHeal, 3, true, rangecheckid)  -- Deactivate Mouseover  ||   At what % Health do we consider someone LowHP  ||  Sort by Actual Health = true
+				local buff  = { 144514 } --Lingering Corruption
+				RaidDispel(dispelid,buff) 	
+			end
+		elseif bossid == 71475 or bossid == 71479 or bossid == 71480 then --The Fallen Protectors
+			local buff  = { 143434 } --Shadow Word: Bane
+			RaidDispel(dispelid,buff) 	
+		elseif bossid == 71734 then --Sha of Pride
+			if UnitDebuffID(&amp;quot;player&amp;quot;,144359) then
+				local buff  = { 144351 } --Mark of Arrogance
+				RaidDispel(dispelid,buff) 			
+			end
+		elseif bossid == 71454 then --Malkorok	
+			local buff  = { 142913 } 	
+			RaidRangeDispel(dispelid,buff,8) 	
+			if UnitDebuffID(&amp;quot;player&amp;quot;,142861) then --Ancient Miasma			
+				ShieldSheuronEngine(Nova_Mouseover, Nova_LowHP, Nova_ActualHP, Nova_TargetHeal, Nova_PetHeal)  -- Deactivate Mouseover  ||   At what % Health do we consider someone LowHP  ||  Sort by Actual Health = true					
+			end
+		elseif bossid == 71161 then --Kil&amp;apos;ruk the Wind-Reaver - Paragons of the Klaxxi
+			if UnitDebuffID(&amp;quot;player&amp;quot;,141858) then --Ingenious			
+				if not tIngenious or (#tIngenious &amp;gt; 0 and (GetTime() &amp;gt; tIngenious[1].Time + 30)) then
+					tIngenious = { }						
+					local qTime = GetTime() 
+					local lastmax = 0
+					local maxunit = &amp;quot;player&amp;quot;		
+					local lasttype = &amp;quot;notype&amp;quot;						
+					local ClassList = { {&amp;apos;WARRIOR&amp;apos;, 0 }, {&amp;apos;PALADIN&amp;apos;, 0 }, {&amp;apos;HUNTER&amp;apos;, 0 }, {&amp;apos;ROGUE&amp;apos;, 0 }, {&amp;apos;PRIEST&amp;apos;, 0 }, {&amp;apos;DEATHKNIGHT&amp;apos;, 0 }, {&amp;apos;SHAMAN&amp;apos;, 0 }, {&amp;apos;MAGE&amp;apos;, 0 }, {&amp;apos;WARLOCK&amp;apos;, 0 }, {&amp;apos;MONK&amp;apos;, 0 }, {&amp;apos;DRUID&amp;apos;, 0 } }				
+					local RaceList = { {&amp;apos;Draenei&amp;apos;, 0 }, {&amp;apos;Gnome&amp;apos;, 0 }, {&amp;apos;Human&amp;apos;, 0 }, {&amp;apos;NightElf&amp;apos;, 0 }, {&amp;apos;Worgen&amp;apos;, 0 }, {&amp;apos;Pandaren&amp;apos;, 0 }, {&amp;apos;BloodElf&amp;apos;, 0 }, {&amp;apos;Goblin&amp;apos;, 0 }, {&amp;apos;Orc&amp;apos;, 0 }, {&amp;apos;Tauren&amp;apos;, 0 }, {&amp;apos;Troll&amp;apos;, 0 }, {&amp;apos;Scourge&amp;apos;, 0 } }
+					for i=1,25 do
+						local unitCheck = &amp;quot;raid&amp;quot;..i
+					    if UnitExists(unitCheck) and UnitIsPlayer(unitCheck) then
+					    	local _, unitClass = UnitClass(unitCheck)				    	
+					    	local _, unitRace = UnitRace(unitCheck)				    	
+					        if unitClass and UnitRace then	
+								--Class
+								for j=1, #ClassList do
+									if unitClass == ClassList[j][1] then
+										--PQR_WriteToChat(&amp;quot;Debug1 - Num: &amp;quot; ..ClassList[j][2]..&amp;quot; - Class: &amp;quot; ..ClassList[j][1])
+										ClassList[j][2] = ClassList[j][2] + 1
+										if ClassList[j][2] &amp;gt; lastmax then
+											lastmax = ClassList[j][2]
+											maxunit = unitCheck
+											lasttype = ClassList[j][1]
+										end												
+									end		
+								end
+								--Race
+								for j=1, #RaceList do
+									if unitRace == RaceList[j][1] then
+										--PQR_WriteToChat(&amp;quot;Debug1 - Num: &amp;quot; ..RaceList[j][2]..&amp;quot; - Race: &amp;quot; ..RaceList[j][1])
+										RaceList[j][2] = RaceList[j][2] + 1
+										if RaceList[j][2] &amp;gt; lastmax then
+											lastmax = RaceList[j][2]
+											maxunit = unitCheck
+											lasttype = RaceList[j][1]
+										end												
+									end		
+								end
+					        end			               	
+					    end
+					end				
+					--PQR_WriteToChat(&amp;quot;Debug1 - Unit: &amp;quot; ..maxunit..&amp;quot; - Type: &amp;quot; ..lasttype..&amp;quot; - Total: &amp;quot; ..lastmax..&amp;quot; - Time: &amp;quot; ..qTime)		
+					table.insert(tIngenious, { Unit = maxunit, Type = lasttype, Total = lastmax, Time = qTime } )			
+					return true								
+				else
+					if #tIngenious &amp;gt; 0 then			
+						if UnitExists(tIngenious[1].Unit) 
+						and IsSpellInRange(GetSpellInfo(rangecheckid),tIngenious[1].Unit) == 1
+						and CanHeal(tIngenious[1].Unit) then	
+			    			TargetUnit(tIngenious[1].Unit) 
+			                --Press the ExtraActionButton 
+			                RunMacroText(&amp;quot;/click ExtraActionButton1&amp;quot;)                     
+			                RunMacroText(&amp;quot;/targetlasttarget&amp;quot;)
+			                --PQR_WriteToChat(&amp;quot;Ingenious Name: &amp;quot;..UnitName(tIngenious[1].Unit)..&amp;quot; - Type: &amp;quot;..tIngenious[1].Type..&amp;quot; - Total: &amp;quot;..tIngenious[1].Total..&amp;quot; - Time: &amp;quot;..tIngenious[1].Time)						        					        	   	
+						end
+					end				
+				end   				
+			else
+				tIngenious = false
+			end
+		elseif bossid == 71529 then --Thok the Bloodthirsty
+			local buff  = { 143791 } --Corrosive Blood
+			RaidDispel(dispelid,buff) 
+			local DeafeningScreech = GetSpellInfo(143343) --Deafening Screech
+			local bossCasting,_,_,_,_,castEnd = UnitCastingInfo(boss) 
+			if (bossCasting == DeafeningScreech) then
+				stopcasting = true
+			end							
+		end	
+	end
+end</Lua><RecastDelay>0</RecastDelay><Target>Player</Target><CancelChannel>True</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>[MISC] 5.3 Events</Name><Default>false</Default><SpellID>0</SpellID><Actions></Actions><Lua>if Nova_53EventsCheck then
+	local boss,bossid = bossid()
+	local dispelid = 115450		
+	local buff = { }
+	stopcasting = false
+	stopdps = false
+	LLdebuff = false
+	LLdebuffunit = false		
+	if UnitExists(boss) then
+		--TFT raid
+		if bossid == 69134 or bossid == 69131 or bossid == 69078 or bossid == 69132 then --Council of Elders
+			local buff  = { 136878, 136857 } 	
+			RaidDispel(dispelid,buff) 	
+		elseif bossid == 68905 or bossid == 68904 then --Lu&amp;apos;lin 68905, Suen 68904 - Twin Consorts
+			local buff  = { 137360 } --Corrupted Healing
+			LLdebuff,LLdebuffunit = RaidLLDispel(buff) 			
+		elseif bossid == 68476 then --Horridon
+			local buff  = { 136708, 136719, 136587, 136710 }
+			RaidDispel(dispelid,buff) 
+		elseif false and bossid == 70212 or bossid == 70235 or bossid == 70247 then --Flaming Head - Players affected by  Cinders should be quick to run over any existing  Icy Ground void zones, and then move to a safe location (out of the way of the raid) to be dispelled.
+			local buff  = { 139822, 139909 } 	
+			RaidRangeDispel(dispelid,buff,10) 
+		elseif false and bossid == 69427 then --Dark Animus
+			local buff  = { 138609 } 	
+			RaidDispel(dispelid,buff)
+			local InterruptingJolt = GetSpellInfo(138763) --139867 
+			local bossCasting,_,_,_,_,castEnd = UnitCastingInfo(boss) 
+			if (bossCasting == InterruptingJolt) then
+				stopcasting = true
+			end				
+		--DS raid
+		elseif bossid == 53879 then --Blood Corruption: Death
+			local buff  = { 106199 } 
+			RaidDispel(dispelid,buff)	
+		--TeS raid
+		elseif bossid == 60585 or bossid == 60583 or bossid == 60586 then --Lightning Prison
+			local buff  = { 117436 } 
+			RaidDispel(dispelid,buff)
+		elseif bossid == 62442 then --Terrorize
+			local buff  = { 123011 } 
+			SBossDispel(123011,dispelid) 
+			--RaidDispel(dispelid,buff)			
+		--MSV raid
+		elseif bossid == 60051 or bossid == 60047 or bossid == 60043 or bossid == 59915 then --Cobalt Mine Blast
+			local buff  = { 116281 } 
+			RaidDispel(dispelid,buff)	
+		elseif bossid == 60708 then --Meng the Demented
+			for i=1, #members do	
+				if UnitDebuffID(members[i].Unit, 117708) then --Maddening Shout
+					stopdps = true
+					break
+				end
+			end			
+		elseif bossid == 60410 then --Closed Circuit
+			local buff  = { 117949 } 
+			RaidDispel(dispelid,buff)	
+		--HoF raid
+		elseif bossid == 62837 then --Visions of Demise
+			local buff  = { 124863 } 
+			RaidDispel(dispelid,buff)		
+		end		
+		
+		if bossid == 62442 then		
+			BossDispel(123011,dispelid,boss) --Tsulong, Terrorize 
+		end
+		
+		--MSV raid
+		if bossid == 60143 or bossid == 61140 or bossid == 70056 then --not test
+			-- Gara&amp;apos;jal the Spiritbinder
+			if UnitDebuffID(&amp;quot;player&amp;quot;,116161) then
+				local timer = select(7,UnitDebuffID(&amp;quot;player&amp;quot;,116161))
+				if timer and timer - GetTime() &amp;lt; 1.5 then
+					SpellStopCasting()
+					RunMacroText(&amp;quot;/click ExtraActionButton1&amp;quot;)
+				end
+			end		
+		end		
+	end
+end</Lua><RecastDelay>0</RecastDelay><Target>Player</Target><CancelChannel>True</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>[CD] Revival</Name><Default>false</Default><SpellID>0</SpellID><Actions></Actions><Lua>if Nova_RevivalCheck then
+	if PQR_SpellAvailable(115310)	
+	and not (UnitChannelInfo(&amp;quot;player&amp;quot;) == GetSpellInfo(131523))	
+	and select(2,GetSpellCooldown(115310)) &amp;lt; 2
+	and IsUsableSpell(115310) 	
+	and not LLdebuff 	
+	and UnitAffectingCombat(&amp;quot;player&amp;quot;)
+	then
+		if AverageHealth(Nova_RevivalLimit) &amp;lt;= Nova_Revival then
+			if UnitCastingInfo(&amp;quot;player&amp;quot;) then
+				SpellStopCasting()
+			end					
+			CastSpellByName(tostring(GetSpellInfo(115310)),&amp;quot;player&amp;quot;)
+			return true					
+		end
+	end
+end</Lua><RecastDelay>0</RecastDelay><Target>Player</Target><CancelChannel>True</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>[SPELL] Healing Sphere</Name><Default>false</Default><SpellID>0</SpellID><Actions></Actions><Lua>if Nova_HealingSphereCheck then	
+	if (DeflamaWeaver_HealingSphere_key and not GetCurrentKeyBoardFocus()) then
+		if not UnitChannelInfo(&amp;quot;player&amp;quot;) 
+		and PQR_SpellAvailable(115460)
+		and GetSpellCooldown(115460) == 0
+		and IsUsableSpell(115460)
+		and not UnitCastingInfo(&amp;quot;player&amp;quot;)
+		then
+		  CastSpellByName(tostring(GetSpellInfo(115460),nil))
+		  if SpellIsTargeting() then CameraOrSelectOrMoveStart() CameraOrSelectOrMoveStop() end  
+		  return true
+		end
+	end		
+end</Lua><RecastDelay>0</RecastDelay><Target>Target</Target><CancelChannel>True</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>[SPELL] Surging Mists</Name><Default>false</Default><SpellID>116694</SpellID><Actions></Actions><Lua>if PQR_SpellAvailable(116694) 
+and IsUsableSpell(116694) 
+and Nova_SurgingMistInstantCheck
+and not UnitBuffID(&amp;quot;player&amp;quot;,101546) -- Spinning Crane Kick
+and not (UnitChannelInfo(&amp;quot;player&amp;quot;) == GetSpellInfo(131523)) -- Zen Meditation
+and UnitAffectingCombat(&amp;quot;player&amp;quot;)
+and not UnitCastingInfo(&amp;quot;player&amp;quot;) then
+	if members[1].HP &amp;lt; Nova_SurgingMistInstant then					
+		if select(4, UnitBuffID(&amp;quot;player&amp;quot;,118674)) == 5
+		and IsSpellInRange(GetSpellInfo(116694),members[1].Unit) == 1 then		
+			PQR_CustomTarget = members[1].Unit
+			CastSpellByName(tostring(GetSpellInfo(116694)),members[1].Unit)
+			return true
+		end
+	end
+end</Lua><RecastDelay>0</RecastDelay><Target>Custom</Target><CancelChannel>False</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>[MISC] Stance</Name><Default>false</Default><SpellID>0</SpellID><Actions></Actions><Lua>if GetShapeshiftForm() ~= 1 then
+	CastShapeshiftForm(1)
+end</Lua><RecastDelay>0</RecastDelay><Target>Target</Target><CancelChannel>False</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>[SPELL] Uplift</Name><Default>false</Default><SpellID>0</SpellID><Actions></Actions><Lua>if not UnitBuffID(&amp;quot;player&amp;quot;,101546) --Spinning Crane Kick
+and not (UnitChannelInfo(&amp;quot;player&amp;quot;) == GetSpellInfo(131523)) --Zen Meditation
+then
+	
+	local upliftcount=0
+	local rmcount=0
+	for i=1, #members do
+		if UnitBuffID(members[i].Unit,119611,&amp;quot;player&amp;quot;)				
+		then 	
+			rmcount = rmcount + 1	
+			if members[i].HP &amp;lt;= Nova_Uplift then
+				upliftcount = upliftcount + 1
+				if upliftcount &amp;gt;= Nova_UpliftCount+1 then
+					break
+				end
+			end
+		end
+	end		
+															
+	if PQR_SpellAvailable(116670)			
+	and Nova_UpliftCheck 
+	and select(5, Nova_UnitInfo(&amp;quot;player&amp;quot;)) &amp;gt;= 2 then
+		if ((upliftcount &amp;gt;= Nova_UpliftCount) and (select(5, Nova_UnitInfo(&amp;quot;player&amp;quot;)) &amp;gt;= 2) and (100 * UnitPower(&amp;quot;player&amp;quot;) / UnitPowerMax(&amp;quot;player&amp;quot;) &amp;gt; 15))
+		or (select(5, Nova_UnitInfo(&amp;quot;player&amp;quot;)) &amp;gt;= 4 and (upliftcount &amp;gt;= (Nova_UpliftCount-1)))
+		and AverageHealth(Nova_UpliftCount) &amp;lt;= Nova_Uplift
+		and not UnitBuffID(&amp;quot;player&amp;quot;,137331) then
+	
+			if PQR_SpellAvailable(116680)
+			and not UnitBuffID(&amp;quot;player&amp;quot;,116680) 
+			and not UnitCastingInfo(&amp;quot;player&amp;quot;)
+			and select(2,GetSpellCooldown(116680)) &amp;lt; 2 
+			and select(5, Nova_UnitInfo(&amp;quot;player&amp;quot;)) &amp;gt;= 3 
+			and ((upliftcount &amp;gt;= Nova_TFT) and Nova_TFTCheck) then
+				CastSpellByName(tostring(GetSpellInfo(116680),nil))	 
+			end						
+	
+			if select(5, Nova_UnitInfo(&amp;quot;player&amp;quot;)) &amp;gt;= 2 
+			and not UnitCastingInfo(&amp;quot;player&amp;quot;) then
+				CastSpellByName(tostring(GetSpellInfo(116670),nil))	 							
+				return true
+			end
+			
+		else
+			if UnitPower(&amp;quot;player&amp;quot;, 12) == 4
+			and Nova_UpliftCheck
+			and	IsSpellInRange(GetSpellInfo(100780), &amp;quot;target&amp;quot;) == 0 then
+				CastSpellByName(tostring(GetSpellInfo(116670),nil))
+			end	
+		end
+				
+	end
+end</Lua><RecastDelay>0</RecastDelay><Target>Custom</Target><CancelChannel>True</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>[SPELL] Spinning Crane Kick</Name><Default>false</Default><SpellID>0</SpellID><Actions></Actions><Lua>if Nova_SpinningCraneKickCheck then	
+	if (DeflamaWeaver_SpinningCraneKick_key and not GetCurrentKeyBoardFocus()) then
+		if PQR_SpellAvailable(101546) 
+		and IsUsableSpell(101546) 
+		and not UnitCastingInfo(&amp;quot;player&amp;quot;) then
+			CastSpellByName(tostring(GetSpellInfo(101546)),nil)
+			return true 
+		end
+	end
+end
+
+if Nova_SpinningCraneKickCheck then
+	if PQR_SpellAvailable(101546) 
+	and IsUsableSpell(101546) 
+	and not UnitBuffID(&amp;quot;player&amp;quot;,139597) --Muscle Memory
+	and select(3, Nova_UnitInfo(&amp;quot;player&amp;quot;)) &amp;gt;= 20
+	and not UnitCastingInfo(&amp;quot;player&amp;quot;) 
+	and not stopcasting then
+		 if AverageHealth(Nova_SpinningCraneKickLimit) &amp;lt;= Nova_SpinningCraneKick then		 	
+			local real_b = 0
+			if #members &amp;gt; 1 then
+				for i=1,#members do		
+					if PQR_UnitDistance(&amp;quot;player&amp;quot;,members[i].Unit) and members[i].HP then
+						if PQR_UnitDistance(&amp;quot;player&amp;quot;,members[i].Unit) &amp;lt;= 8 
+						and not UnitIsUnit(&amp;quot;player&amp;quot;,members[i].Unit) 
+						and members[i].HP &amp;lt;= Nova_SpinningCraneKick then
+							real_b = real_b + 1					
+							if real_b &amp;gt;= Nova_SpinningCraneKickLimit then
+								break
+							end									
+						end
+					end
+				end
+				if real_b &amp;gt;= Nova_SpinningCraneKickLimit 
+				and select(5, Nova_UnitInfo(&amp;quot;player&amp;quot;)) &amp;lt;= 3 then
+					CastSpellByName(tostring(GetSpellInfo(101546)),nil)
+					return true					
+				end
+			end	
+		end
+	end	
+end</Lua><RecastDelay>0</RecastDelay><Target>Target</Target><CancelChannel>False</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>[SPELL] Life Cocoon</Name><Default>false</Default><SpellID>0</SpellID><Actions></Actions><Lua>if Nova_LifeCocoonCheck then
+	if PQR_SpellAvailable(116849) 	 
+ 	and not (UnitChannelInfo(&amp;quot;player&amp;quot;) == GetSpellInfo(131523)) --Zen Meditation	 
+	and UnitAffectingCombat(&amp;quot;player&amp;quot;)
+	and select(2,GetSpellCooldown(116849)) &amp;lt; 2
+	and UnitThreatSituation(members[1].Unit) == 3
+	and IsUsableSpell(116849)
+	and IsSpellInRange(GetSpellInfo(116849),members[1].Unit) == 1 then
+		if members[1].HP &amp;lt; Nova_LifeCocoon 		
+		and UnitGroupRolesAssigned(members[1].Unit) ~= &amp;quot;NONE&amp;quot; then --Nova_LifeCocoon 
+			if UnitCastingInfo(&amp;quot;player&amp;quot;) then
+				SpellStopCasting()
+			end				
+		 	CastSpellByName(tostring(GetSpellInfo(116849)),members[1].Unit)	
+		 	return true
+		end
+	end
+end</Lua><RecastDelay>0</RecastDelay><Target>Custom</Target><CancelChannel>True</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>[MISC] Mana Tea Pause</Name><Default>false</Default><SpellID>0</SpellID><Actions></Actions><Lua>if (UnitChannelInfo(&amp;quot;player&amp;quot;) == GetSpellInfo(115294)) then
+	return true
+end</Lua><RecastDelay>0</RecastDelay><Target>Target</Target><CancelChannel>True</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>[CD] Zen Meditation</Name><Default>false</Default><SpellID>0</SpellID><Actions></Actions><Lua>if Nova_ZenMeditationCheck then	
+	if (DeflamaWeaver_ZenMeditation_key and not GetCurrentKeyBoardFocus()) then		
+		if PQR_SpellAvailable(115176) 
+		and GetSpellCooldown(115176) == 0
+		and UnitAffectingCombat(&amp;quot;player&amp;quot;)
+		and not Nova_Moving 
+		and not UnitChannelInfo(&amp;quot;player&amp;quot;)
+		and not UnitCastingInfo(&amp;quot;player&amp;quot;) 
+		and not stopcasting then
+			CastSpellByName(tostring(GetSpellInfo(115176)),nil)
+			return true 
+		end
+	end
+end</Lua><RecastDelay>0</RecastDelay><Target>Target</Target><CancelChannel>True</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>[MISC] Self Survival</Name><Default>false</Default><SpellID>0</SpellID><Actions></Actions><Lua>if Nova_UnitInfo(&amp;quot;player&amp;quot;) &amp;lt;= 20 
+and UnitAffectingCombat(&amp;quot;player&amp;quot;) then
+	if GetItemCount(5512,false,true) &amp;gt; 0	
+	and PQR_SpellAvailable(5512) --Healthstone		
+	and not (UnitChannelInfo(&amp;quot;player&amp;quot;) == GetSpellInfo(131523)) --Zen Meditation
+	and GetItemCooldown(5512) == 0 then
+		if UnitCastingInfo(&amp;quot;player&amp;quot;) then
+			SpellStopCasting()
+		end	
+		UseItemByName(5512)
+		--PQR_WriteToChat(&amp;quot;\124cFFFF55FFHealthstone - HP: &amp;quot; ..Nova_UnitInfo(&amp;quot;player&amp;quot;)) 
+		return true
+	--elseif GetInventoryItemCooldown(6)==0 --Grounded Plasma Shield 	
+	--then 
+		--UseInventoryItem(6) 
+		--return true
+	--The next 3 attacks within 45 sec that deal damage equal to 20% or more of your total health are reduced in half.
+	elseif PQR_SpellAvailable(122278)	
+	and not (UnitChannelInfo(&amp;quot;player&amp;quot;) == GetSpellInfo(131523)) --Zen Meditation	
+	and select(2,GetTalentRowSelectionInfo(5)) == 14
+	and select(2,GetSpellCooldown(122278)) &amp;lt; 2 then
+	--and IsUsableSpell(115176) 	
+		if UnitCastingInfo(&amp;quot;player&amp;quot;) then
+			SpellStopCasting()
+		end		
+		CastSpellByName(tostring(GetSpellInfo(122278),nil))	 			
+		--PQR_WriteToChat(&amp;quot;\124cFFFF55FFDampen Harm!&amp;quot;)	
+		return true		
+	elseif PQR_SpellAvailable(115203)	
+	and not (UnitChannelInfo(&amp;quot;player&amp;quot;) == GetSpellInfo(131523)) --Zen Meditation		
+	and select(2,GetSpellCooldown(115203)) &amp;lt; 2 
+	and not UnitBuffID(&amp;quot;player&amp;quot;,122278) then --Dampen Harm
+		if UnitCastingInfo(&amp;quot;player&amp;quot;) then
+			SpellStopCasting()
+		end		
+		CastSpellByName(tostring(GetSpellInfo(115203),nil))	 	
+		--PQR_WriteToChat(&amp;quot;\124cFFFF55FFFortifying Brew - My HP: &amp;quot;..Nova_UnitInfo(&amp;quot;player&amp;quot;))	
+		return true		
+	end
+end</Lua><RecastDelay>0</RecastDelay><Target>Target</Target><CancelChannel>False</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>[MISC] Mana Tea Cancel Channel</Name><Default>false</Default><SpellID>0</SpellID><Actions></Actions><Lua>if (UnitChannelInfo(&amp;quot;player&amp;quot;) == GetSpellInfo(115294))
+and 100 * UnitPower(&amp;quot;player&amp;quot;) / UnitPowerMax(&amp;quot;player&amp;quot;) &amp;gt;= 90 then
+	SpellStopCasting()
+end</Lua><RecastDelay>0</RecastDelay><Target>Target</Target><CancelChannel>True</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>[MISC] NPC Mouseover Heal</Name><Default>false</Default><SpellID>0</SpellID><Actions></Actions><Lua>if Nova_NPCMouseoverHeal
+and UnitAffectingCombat(&amp;quot;player&amp;quot;)
+then
+	local dispelid = 115450	
+	local rangecheckid = 115175	
+	if UnitExists(&amp;quot;mouseover&amp;quot;)				
+	and not UnitIsPlayer(&amp;quot;mouseover&amp;quot;) then
+		local npcID = tonumber(UnitGUID(&amp;quot;mouseover&amp;quot;):sub(6,10), 16) 				
+		if npcID == 71604 --Contaminated Puddle - Immerseus - SoO
+		or npcID == 71995 or npcID == 71996 or npcID == 72000 --Norushen
+		or npcID == 71357 --Wrathion		
+		then				
+			if IsSpellInRange(GetSpellInfo(rangecheckid),&amp;quot;mouseover&amp;quot;)
+			and Nova_UnitInfo(&amp;quot;mouseover&amp;quot;) &amp;lt; 100 then	
+				--RenewingMist
+				if PQR_SpellAvailable(115151) 
+				and not UnitBuffID(&amp;quot;mouseover&amp;quot;,115151,&amp;quot;player&amp;quot;)
+				and IsSpellInRange(GetSpellInfo(115151),&amp;quot;mouseover&amp;quot;) == 1
+				and not UnitCastingInfo(&amp;quot;player&amp;quot;)
+				and IsUsableSpell(115151) then
+					CastSpellByName(tostring(GetSpellInfo(115151)),&amp;quot;mouseover&amp;quot;)	 
+				end		
+				
+				--EnvelopingMist
+				if PQR_SpellAvailable(124682) 		 
+				 and IsSpellInRange(GetSpellInfo(124682),&amp;quot;mouseover&amp;quot;) == 1		 
+				 and (UnitChannelInfo(&amp;quot;player&amp;quot;) == GetSpellInfo(115175)) --Soothing Mist
+				 and IsUsableSpell(124682) then 	
+					if UnitBuffID(&amp;quot;mouseover&amp;quot;,115175,&amp;quot;player&amp;quot;) --Soothing Mist
+					and not UnitBuffID(&amp;quot;mouseover&amp;quot;,124682,&amp;quot;player&amp;quot;) --Enveloping Mist
+					then					
+						if select(5, Nova_UnitInfo(&amp;quot;player&amp;quot;)) &amp;gt;= 3 
+						and not UnitCastingInfo(&amp;quot;player&amp;quot;) then
+							CastSpellByName(tostring(GetSpellInfo(124682)),&amp;quot;mouseover&amp;quot;)	 
+					 	elseif select(5, Nova_UnitInfo(&amp;quot;player&amp;quot;)) == 0 
+					 	and select(2,GetTalentRowSelectionInfo(3)) == 9 
+					 	and not UnitCastingInfo(&amp;quot;player&amp;quot;) then		 		
+					 		CastSpellByName(tostring(GetSpellInfo(115399)),&amp;quot;player&amp;quot;) --Chi Brew	 
+							CastSpellByName(tostring(GetSpellInfo(124682)),&amp;quot;mouseover&amp;quot;)	 
+						end		 			 		
+					end
+				end			
+				
+				--SurgingMist 
+				if PQR_SpellAvailable(116694) 
+				and IsUsableSpell(116694) 		
+				and IsSpellInRange(GetSpellInfo(116694),&amp;quot;mouseover&amp;quot;) == 1 then		
+					if UnitBuffID(&amp;quot;player&amp;quot;,118674) then --Vital Mists
+						if select(4, UnitBuffID(&amp;quot;player&amp;quot;,118674)) == 5 
+						and not UnitCastingInfo(&amp;quot;player&amp;quot;) then
+							CastSpellByName(tostring(GetSpellInfo(116694)),&amp;quot;mouseover&amp;quot;)
+						end
+					end
+					
+					if (select(3, Nova_UnitInfo(&amp;quot;player&amp;quot;)) &amp;gt; 70)
+					then		
+						if (UnitChannelInfo(&amp;quot;player&amp;quot;) == GetSpellInfo(115175)) --Soothing Mist
+						then 	
+							if UnitBuffID(&amp;quot;mouseover&amp;quot;,115175,&amp;quot;player&amp;quot;) --Soothing Mist
+							and not UnitCastingInfo(&amp;quot;player&amp;quot;)
+							then		
+								if PQR_SpellAvailable(116680) --Thunder Focus Tea
+								and not UnitBuffID(&amp;quot;player&amp;quot;,116680) then
+									if select(2,GetSpellCooldown(116680)) &amp;lt; 2 
+									and select(5, Nova_UnitInfo(&amp;quot;player&amp;quot;)) &amp;gt;= 3 
+									and not UnitCastingInfo(&amp;quot;player&amp;quot;) then
+										CastSpellByName(tostring(GetSpellInfo(116680),&amp;quot;player&amp;quot;))	 								
+									end					
+								end								
+								CastSpellByName(tostring(GetSpellInfo(116694)),&amp;quot;mouseover&amp;quot;)
+							end
+						end
+					end
+				end			
+					
+				--SoothingMist
+				if PQR_SpellAvailable(115175)  
+				and IsUsableSpell(115175) 
+				and not Nova_Moving 
+				and IsSpellInRange(GetSpellInfo(115175),&amp;quot;mouseover&amp;quot;) --Soothing Mist
+				and not UnitBuffID(&amp;quot;mouseover&amp;quot;,115175,&amp;quot;player&amp;quot;) --Soothing Mist
+				and not UnitCastingInfo(&amp;quot;player&amp;quot;) then				
+			 		CastSpellByName(tostring(GetSpellInfo(115175)),&amp;quot;mouseover&amp;quot;)	 
+			 		--PQR_WriteToChat(&amp;quot;\124cFFFF55FFCast SoothingMist - Name: &amp;quot; ..UnitName(&amp;quot;mouseover&amp;quot;)..&amp;quot; - HP: &amp;quot;..Nova_UnitInfo(&amp;quot;mouseover&amp;quot;)..&amp;quot; - NPCID: &amp;quot;..npcID) 
+			 		return true
+				end		
+			end
+		end		
+	elseif UnitExists(&amp;quot;focus&amp;quot;)				
+	and not UnitIsPlayer(&amp;quot;focus&amp;quot;) then
+		local npcID = tonumber(UnitGUID(&amp;quot;focus&amp;quot;):sub(6,10), 16) 				
+		if npcID == 71604 --Contaminated Puddle - Immerseus - SoO
+		or npcID == 71995 or npcID == 71996 or npcID == 72000 --Norushen
+		or npcID == 71357 --Wrathion 
+		then
+			if IsSpellInRange(GetSpellInfo(rangecheckid),&amp;quot;focus&amp;quot;) --FlashHeal
+			then		
+				local focushp = CalculateHP(&amp;quot;focus&amp;quot;)
+				if focushp ~= nil and select(2, CalculateHP(&amp;quot;focus&amp;quot;)) ~= nil then
+					table.insert(members, { Unit = &amp;quot;focus&amp;quot;, HP = focushp, AHP = select(2, CalculateHP(&amp;quot;focus&amp;quot;)), IsNPC = true } )
+				end
+				if #members &amp;gt; 0 then
+					table.sort(members, function(x,y) return x.HP &amp;lt; y.HP end)
+				end				
+			end
+		end	
+	end
+end</Lua><RecastDelay>0</RecastDelay><Target>Custom</Target><CancelChannel>True</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>- QUEUE SYSTEM -</Name><Default>false</Default><SpellID>0</SpellID><Actions></Actions><Lua>if Nova_QueueSystemCheck 
+then
+	local dispelid = 115450	
+	local rangecheckid = 115175		
+	if #Queue_Sys &amp;gt; 0 then	
+		if PQR_SpellAvailable(dispelid) 
+		and select(2,GetSpellCooldown(dispelid)) &amp;lt; 2
+		and UnitExists(Queue_Sys[1].Unit)
+		and IsUsableSpell(dispelid)
+		and IsSpellInRange(GetSpellInfo(dispelid),Queue_Sys[1].Unit) == 1
+		and CanHeal(Queue_Sys[1].Unit)
+		and not PQR_IsOutOfSight(Queue_Sys[1].Unit) then
+			if not UnitChannelInfo(&amp;quot;player&amp;quot;)
+			and not UnitCastingInfo(&amp;quot;player&amp;quot;) 
+			then	
+				CastSpellByName(tostring(GetSpellInfo(dispelid)),Queue_Sys[1].Unit)					
+				return true	
+			end
+		end
+	end
+	
+	if Queue_Spell then
+		if #Queue_Spell &amp;gt; 0 then	
+			if GetTime() - Queue_Spell[1].Time &amp;gt;= 10 then
+				Queue_Spell = { }				
+				return true
+			end			
+			if #Queue_Spell &amp;gt; 1 then			
+				if Queue_Spell[1].SpellID == Queue_Spell[2].SpellID and Queue_Spell[1].Unit == Queue_Spell[2].Unit then
+					table.remove(Queue_Spell,2)	
+					return true	
+				end
+			end
+			
+			local qunit = &amp;quot;player&amp;quot;
+			if Queue_Spell[1].Unit == &amp;quot;low&amp;quot; then
+				qunit = members[1].Unit
+			elseif Queue_Spell[1].Unit == &amp;quot;tank&amp;quot; then
+				if #Nova_Tanks &amp;gt; 0 then
+					for i=1, #Nova_Tanks do
+						if UnitThreatSituation(Nova_Tanks[i].Unit) then
+							qunit = Nova_Tanks[i].Unit
+							break
+						end
+					end
+				end
+				if UnitThreatSituation(members[1].Unit)	== 3 then
+				 	qunit = members[1].Unit
+				end			
+			else
+				qunit = Queue_Spell[1].Unit
+			end
+			
+			if PQR_SpellAvailable(tonumber(Queue_Spell[1].SpellID)) 
+			and select(2,GetSpellCooldown(tonumber(Queue_Spell[1].SpellID))) &amp;lt; 2
+			and UnitExists(qunit)
+			then
+				if not UnitChannelInfo(&amp;quot;player&amp;quot;)
+				and not UnitCastingInfo(&amp;quot;player&amp;quot;) 
+				then					
+					local qmembers = members
+					table.sort(qmembers, function(x) return UnitIsUnit(qunit,x.Unit) end)
+					if UnitIsUnit(qmembers[1].Unit,qunit) then
+						qunit = qmembers[1].Unit	
+					else
+						if IsSpellInRange(GetSpellInfo(Queue_Spell[1].SpellID),Queue_Spell[1].Unit) then
+							qunit = Queue_Spell[1].Unit	
+						else
+							qunit = &amp;quot;player&amp;quot;
+						end
+					end
+					SpellSUCCEEDED(Queue_Spell[1].SpellID,qunit)
+					CastSpellByName(tostring(GetSpellInfo(Queue_Spell[1].SpellID)),qunit)									
+					return true						
+				end
+			end						
+		end
+	end	
+end</Lua><RecastDelay>0</RecastDelay><Target>Custom</Target><CancelChannel>True</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>[MISC] Auto Target</Name><Default>false</Default><SpellID>0</SpellID><Actions></Actions><Lua>if Nova_AutoTargetCheck then	
+	if (not UnitExists(&amp;quot;focus&amp;quot;)
+		or UnitIsDeadOrGhost(&amp;quot;focus&amp;quot;)
+		or not UnitInRange(&amp;quot;focus&amp;quot;) 
+		or not UnitIsConnected(&amp;quot;focus&amp;quot;)
+		or not UnitCanCooperate(&amp;quot;player&amp;quot;,&amp;quot;focus&amp;quot;))
+	and (UnitIsDeadOrGhost(&amp;quot;target&amp;quot;) 
+		or not UnitExists(&amp;quot;target&amp;quot;))	
+	and #Nova_Tanks &amp;gt; 0 then
+		for i=1, #Nova_Tanks do
+			if UnitThreatSituation(Nova_Tanks[i].Unit) == 3			
+			and UnitAffectingCombat(&amp;quot;player&amp;quot;)		 
+			then			
+	   			TargetUnit(Nova_Tanks[i].Unit)            		
+	    		RunMacroText(&amp;quot;/focus&amp;quot;)			
+	            RunMacroText(&amp;quot;/targetlasttarget&amp;quot;)			
+			end
+		end
+	end
+	
+	if UnitExists(&amp;quot;focus&amp;quot;)
+	and not Nova_Moving
+	and (UnitIsDeadOrGhost(&amp;quot;target&amp;quot;) or not UnitExists(&amp;quot;target&amp;quot;))
+	and not UnitIsDeadOrGhost(&amp;quot;focustarget&amp;quot;)
+	and not UnitIsDeadOrGhost(&amp;quot;focus&amp;quot;)
+	and UnitExists(&amp;quot;focustarget&amp;quot;)
+	and UnitCanAttack(&amp;quot;player&amp;quot;, &amp;quot;focustarget&amp;quot;)
+	and IsSpellInRange(GetSpellInfo(100780),&amp;quot;focustarget&amp;quot;) == 1
+	and not PQR_IsOutOfSight(&amp;quot;focustarget&amp;quot;)
+	and UnitAffectingCombat(&amp;quot;player&amp;quot;) then
+		TargetUnit(&amp;quot;focustarget&amp;quot;)
+		return false 	
+	elseif UnitExists(&amp;quot;target&amp;quot;) 
+	and not stopdps
+	and not UnitIsDeadOrGhost(&amp;quot;target&amp;quot;)
+	and not UnitCastingInfo(&amp;quot;player&amp;quot;)
+	and UnitCanAttack(&amp;quot;player&amp;quot;, &amp;quot;target&amp;quot;)
+	and not PQR_IsOutOfSight(&amp;quot;target&amp;quot;) then
+		if IsSpellInRange(GetSpellInfo(6603),&amp;quot;target&amp;quot;) == 1 then		
+			AttackTarget()
+			return false 			
+		else
+			StopAttack()
+			return false 
+		end
+	end
+end</Lua><RecastDelay>0</RecastDelay><Target>Target</Target><CancelChannel>False</CancelChannel><SkipUnknown>True</SkipUnknown></Ability></MONK>

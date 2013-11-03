@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?><MONK><Options><ProfileVersion>v1.2 Beta</ProfileVersion><AbilityURL>https://dl.dropboxusercontent.com/1/view/ddp7a81dehxydbs/Deflama_Lightning_Weaver/Deflama_MONK_Abilities.xml</AbilityURL><RotationURL>https://dl.dropboxusercontent.com/1/view/3m3brm8ft7wn05t/Deflama_Lightning_Weaver/Deflama_MONK_Rotations.xml</RotationURL><LuaURL>https://dl.dropboxusercontent.com/1/view/ndat17fptfnchka/Deflama_Lightning_Weaver/PQR_Deflama_Data.lua</LuaURL><LegacyMode>True</LegacyMode></Options><Rotation><RotationName>LightWeave</RotationName><RotationDefault>false</RotationDefault><RotationList>- DATA -|- PQI VARIABLES -|- PAUSE -|- HEALING ENGINE -|[MISC] NPC Mouseover Heal|[MISC] 5.4 Events|[MISC] 5.3 Events|- QUEUE SYSTEM -|[MISC] Stance|[BUFF] Jade Serpent Statue|[BUFF] Legacy of the Emperor|[SPELL] Healing Sphere|[MISC] Mana Tea Cancel Channel|[SPELL] Mana Tea|[SPELL] Touch of Death|[META] CJL Stop Casting|[CD] Revival|[CD] Zen Meditation|[MISC] Self Survival|[SPELL] Life Cocoon|[SPELL] Uplift|[SPELL] Detox|[SPELL] Surging Mists|[SPELL] Spinning Crane Kick|[MISC] Mana Tea Pause|[SPELL] Renewing Mist|[SPELL] Chi Brew|[SPELL] Expel Harm|[DPS] Chi Wave|[DPS] Jab|[DPS] Blackout Kick|[DPS] Tiger Palm|[DPS] Crackling Jade Lightning|[MISC] Auto Target</RotationList><RequireCombat>false</RequireCombat><RotationNotes>Ingame Macro:
+&amp;quot;/cleave&amp;quot;  -  Toggles use of BoK (active) or TP (inactive) as chi dumps
+&amp;quot;/vqueue spellid unit&amp;quot; - Queu System. For example: /vqueue 2060 tank, /vqueue 2060 low, /vqueue 2060 focus, /vqueue 2060 mouseover, /vqueue 2060 target, /vqueue 2060 party1
+
+Recommended Stat Prio:
+Int &amp;gt; Haste &amp;gt; Crit
+
+Required Talents:
+lvl 30 - Chi Wave
+lvl 45 - Chi Brew
+
+Many thanks to Dead, Vach, CML, Team Nova, and all my testers :D
+</RotationNotes></Rotation></MONK>
